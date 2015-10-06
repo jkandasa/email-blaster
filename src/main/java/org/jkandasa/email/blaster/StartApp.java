@@ -18,6 +18,7 @@ package org.jkandasa.email.blaster;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Properties;
 
@@ -41,7 +42,7 @@ public class StartApp {
                 AppProperties.APPLICATION_NAME, AppProperties.APPLICATION_VERSION);
         _logger.debug("App Properties: {}", appProperties.toString());
         try {
-            List<Address> addresses = EmailUtils.getSenders(appProperties.getSendersFile());
+            List<Address> addresses = EmailUtils.getRecipients(appProperties.getRecipientsFile());
             _logger.info("Total number of senders:{}", addresses.size());
             int counter = 0;
             for (Address address : addresses) {
@@ -49,16 +50,16 @@ public class StartApp {
                     EmailUtils.sendEmail(appProperties, address);
                     counter++;
                     if (counter % 25 == 0) {
-                        _logger.info("Sent {} of {} successfully..", counter, addresses.size());
+                        _logger.info("Sent {} of {} email(s) successfully..", counter, addresses.size());
                     } else {
-                        _logger.debug("Sent {} of {} successfully..", counter, addresses.size());
+                        _logger.debug("Sent {} of {} email(s)successfully..", counter, addresses.size());
                     }
                 } catch (EmailException ex) {
                     _logger.error("Unable to send for the Address:[{}]", address);
                 }
             }
-            _logger.info("Email blaster completed successfully for {} senders in [{}] milliseconds",
-                    counter, (System.currentTimeMillis() - start));
+            _logger.info("Email blaster completed successfully for {} recipients in [{}] Seconds",
+                    counter, new DecimalFormat("#.###").format((System.currentTimeMillis() - start) / 1000.0));
         } catch (FileNotFoundException ex) {
             _logger.error("File not found!", ex);
         } catch (IOException ex) {

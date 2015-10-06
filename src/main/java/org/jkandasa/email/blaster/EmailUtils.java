@@ -50,7 +50,7 @@ public class EmailUtils {
         //Utils class
     }
 
-    public static List<Address> getSenders(String sendersListFile) throws FileNotFoundException {
+    public static List<Address> getRecipients(String sendersListFile) throws FileNotFoundException {
         BeanListProcessor<Address> rowProcessor = new BeanListProcessor<Address>(Address.class);
 
         CsvParserSettings parserSettings = new CsvParserSettings();
@@ -83,7 +83,7 @@ public class EmailUtils {
         email.addTo(address.getEmails().split(EMAIL_SEPARATOR));
         String sendReturn = email.send();
         _logger.debug("Send Status:[{}]", sendReturn);
-        _logger.trace("Email successfully sent to [{}]", address);
+        _logger.debug("Email successfully sent to [{}]", address);
     }
 
     public static HtmlEmail initializeEmail(AppProperties appProperties) throws EmailException {

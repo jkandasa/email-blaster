@@ -28,7 +28,7 @@ Who wants to send emails for some events/occasions. You have to configure your m
 Extract downloaded bundle where exactly do you want to run. Configuration files located in `email-blaster/conf`
 
 
-File: `conf/senders.csv`
+File: `conf/recipients.csv`
 
 *Example CSV file*
 ```
@@ -38,7 +38,7 @@ Jeeva,jeeva@xyz.com;jeeva@abc.com
 ```
 - You should add headers `Name` and `Emails`
 - Name can contain space
-- If you want to add multiple emails add it with `;` separated
+- If you want to add multiple email's add it with `;` separated
 
 File: `conf/eb.properties`
 
@@ -58,15 +58,15 @@ eb.email.password=password
 - `eb.email.username`: Username
 - `eb.email.password`: Password
 
-*Configure Senders list and HTML Template*
+*Configure recipients list and HTML Template*
 ```
-eb.email.senders.file=../conf/senders.csv
+eb.email.recipients.file=../conf/recipients.csv
 eb.email.attachments=../conf/attachments/cute-cat.jpg,../conf/attachments/jerky-dog.jpg,../conf/attachments/cute-dog-and-cat.jpg
 eb.email.attachments.embedded=false
 eb.email.subject.file=../conf/templates/email-subject.txt
 eb.email.html.template=../conf/templates/emailtemplate.html
 ```
-- `eb.email.senders.file`: List of recipients with name and email address. `CSV` file
+- `eb.email.recipients.file`: List of recipients with name and email address. `CSV` file
 - `eb.email.attachments`: List of attachment files needs to be attached. Multiple files with comma `,` separated
 - `eb.email.attachments.embedded`: If you want to attach your files as embedded enable this option (*Note:* When you enable this option you should change HTML template to `emailtemplate-embedded.html`)
 - `eb.email.subject.file`: Subject line of the email, here you can use `$user` variable. This variable will be replaced with `Name` from `CSV` file.

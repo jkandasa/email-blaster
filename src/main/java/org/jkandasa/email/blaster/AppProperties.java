@@ -36,7 +36,7 @@ public class AppProperties {
     private String smtpHost;
     private String smtpPort;
     private boolean enableSSL;
-    private String sendersFile;
+    private String recipientsFile;
     private String emailSubjectFile;
     private String emailFormatTemplate;
     private String attachments;
@@ -56,7 +56,7 @@ public class AppProperties {
         this.fromAddress = getValue(properties, "eb.email.from.address");
         this.username = getValue(properties, "eb.email.username");
         this.password = getValue(properties, "eb.email.password");
-        this.sendersFile = getValue(properties, "eb.email.senders.file");
+        this.recipientsFile = getValue(properties, "eb.email.recipients.file");
         this.emailFormatTemplate = getValue(properties, "eb.email.html.template");
         this.emailSubjectFile = getValue(properties, "eb.email.subject.file");
         this.attachments = getValue(properties, "eb.email.attachments");
@@ -65,16 +65,10 @@ public class AppProperties {
 
     private String getValue(Properties properties, String key) {
         String value = properties.getProperty(key);
-        if (key.contains("password")) {
-            _logger.debug("Key:{}-->{}", key, "******");
-        } else {
-            _logger.debug("Key:{}-->{}", key, value);
-        }
+        _logger.debug("Key:{}, Value:{}", key, key.contains("password") ? "*****" : value);
+
         if (value != null) {
-            if (key.contains("password")) {
-                return value;
-            }
-            return value.trim();
+            return key.contains("password") ? value : value.trim();
         } else {
             return null;
         }
@@ -104,8 +98,8 @@ public class AppProperties {
         return enableSSL;
     }
 
-    public String getSendersFile() {
-        return sendersFile;
+    public String getRecipientsFile() {
+        return recipientsFile;
     }
 
     public String getEmailFormatTemplate() {
@@ -131,7 +125,7 @@ public class AppProperties {
         builder.append(", Is SSL Enabled?:").append(this.isEnableSSL());
         builder.append(", From Address:").append(this.getFromAddress());
         builder.append(", Username:").append(this.getUsername());
-        builder.append(", Senders File Location:").append(this.getSendersFile());
+        builder.append(", Senders File Location:").append(this.getRecipientsFile());
         builder.append(", Email Subject File:").append(this.getEmailSubjectFile());
         builder.append(", Email Template File:").append(this.getEmailFormatTemplate());
         builder.append(", Attachements:").append(this.getAttachments());
