@@ -4,7 +4,7 @@
 Email Blaster is standalone java application to send email to multiple recipients.
 You have to add recipients `Name` and `Emails` in `CSV` file and change existing HTML template or create your own template.
 
-===== Who is going to use Email Blaster?
+===== Who can use Email Blaster?
 Who wants to send emails for some events/occasions. You have to configure your message on predefined HTML template and
  add your recipients in CSV file. That's it! This application will read line by line from your `CSV` and sending 
  one by one with predefined template format.
