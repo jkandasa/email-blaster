@@ -15,8 +15,6 @@
  */
 package org.jkandasa.email.blaster;
 
-import java.util.Arrays;
-
 import com.univocity.parsers.annotations.Parsed;
 
 /**
@@ -57,7 +55,7 @@ public class Address {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Name:").append(this.name);
-        builder.append(", Email(s):").append(Arrays.asList(this.emails));
+        builder.append(", Email(s):").append(this.emails);
         return builder.toString();
     }
 }
