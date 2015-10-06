@@ -1,0 +1,152 @@
+== Welcome to Email Blaster :)
+:source-language: java
+
+Email Blaster is standalone java application to send email to multiple recipients.
+You have to add recipients `Name` and `Emails` in `CSV` file and change existing HTML template or create your own template.
+
+===== Who is going to use Email Blaster?
+Who wants to send emails for some events/occasions. You have to configure your message on predefined HTML template and
+ add your recipients in CSV file. That's it! This application will read line by line from your `CSV` and sending 
+ one by one with predefined template format.
+
+===== Features
+* You can define your email format in HTML template file
+* Add N number of attachments
+* Add attachments as embedded
+* Multiple emails for a single person (with `;` separated)
+* You can configure your SMTP email service provider (example: gmail,yahoo,etc.,)
+
+== Execution
+
+====== Download(executable bundle),
+
+* https://github.com/jkandasa/email-blaster/releases/download/0.0.1/email-blaster-0.0.1-bundle.tar.gz[email-blaster-0.0.1-bundle.tar.gz]
+* https://github.com/jkandasa/email-blaster/releases/download/0.0.1/email-blaster-0.0.1-bundle.zip[email-blaster-0.0.1-bundle.zip]
+
+====== Configuration
+
+Extract downloaded bundle where exactly do you want to run. Configuration files located in `email-blaster/conf`
+
+
+File: `conf/senders.csv`
+
+*Example CSV file*
+```
+Name,Emails
+Uma Jeeva,uma@abc.com
+Jeeva,jeeva@xyz.com;jeeva@abc.com
+```
+- You should add headers `Name` and `Emails`
+- Name can contain space
+- If you want to add multiple emails add it with `;` separated
+
+File: `conf/eb.properties`
+
+*Configure your SMTP service provider details*
+```
+eb.email.smpt.host=smtp.gmail.com
+eb.email.smpt.port=465
+eb.email.enable.ssl=true
+eb.email.from.address=user@gmail.com
+eb.email.username=user@gmail.com
+eb.email.password=password
+```
+- `eb.email.smpt.host`: Host name of SMTP service provider
+- `eb.email.smpt.port`: Port Number
+- `eb.email.enable.ssl`: If you want enable SSL configure `true`
+- `eb.email.from.address`: From email address
+- `eb.email.username`: Username
+- `eb.email.password`: Password
+
+*Configure Senders list and HTML Template*
+```
+eb.email.senders.file=../conf/senders.csv
+eb.email.attachments=../conf/attachments/cute-cat.jpg,../conf/attachments/jerky-dog.jpg,../conf/attachments/cute-dog-and-cat.jpg
+eb.email.attachments.embedded=false
+eb.email.subject.file=../conf/templates/email-subject.txt
+eb.email.html.template=../conf/templates/emailtemplate.html
+```
+- `eb.email.senders.file`: List of recipients with name and email address. `CSV` file
+- `eb.email.attachments`: List of attachment files needs to be attached. Multiple files with comma `,` separated
+- `eb.email.attachments.embedded`: If you want to attach your files as embedded enable this option (*Note:* When you enable this option you should change HTML template to `emailtemplate-embedded.html`)
+- `eb.email.subject.file`: Subject line of the email, here you can use `$user` variable. This variable will be replaced with `Name` from `CSV` file.
+- `eb.email.html.template`: Email message body template. Here you can use two variables `$user` and `$attachments`. You will be using `$attachments` when you enable `eb.email.attachments.embedded`
+
+*Logger configuration*
+
+Configuration File Name: `logback.xml`
+
+Default log file location: `logs/email-blaster.log`
+
+====== Execute Email Blaster
+Executable scripts are located in `email-blaster/bin/`
+
+* Linux
+    - `./start.sh`
+
+* Windows
+    - Double click on `start.bat`
+
+* Other Platforms from `bin` directory
+    
+```
+java -Xms8m -Xmx40m -Dlogback.configurationFile=../conf/logback.xml -Deb.conf.file=../conf/eb.properties -jar ../lib/email-blaster-0.0.1-single.jar
+```
+
+==== Template samples
+===== Email Subject sample
+File: `conf/templates/email-subject.txt`
+```
+Hello $user
+```
+Here the `$user` variable will be replaced with `Name` from `CSV` file
+
+===== Email Message sample
+File: `conf/templates/emailtemplate.html`
+```
+<!DOCTYPE html>
+<html>
+  <body>
+    <style>
+      body {font-size: 12px;}
+    </style>
+    <b>Dear $user,</b>
+    <br>
+    <br>
+    This is test email!
+    <br>
+    <br>Regards,
+    <br>https://github.com/jkandasa/email-blaster
+</body>
+</html>
+```
+Here the `$user` will be replaced with `Name` from `CSV` file
+
+===== Email Message with embedded attachment sample
+File: `conf/templates/emailtemplate-embedded.html`
+```
+<!DOCTYPE html>
+<html>
+  <body>
+    <style>
+      body {font-size: 12px;}
+    </style>
+    <b>Dear $user,</b>
+    <br>
+    <br>
+    This is test email!
+    <br>
+    $attachments
+    <br>Regards,
+    <br>https://github.com/jkandasa/email-blaster
+</body>
+</html>
+```
+Here the `$user` will be replaced with `Name` from `CSV` file and `$attachments` will be replaced with list of attachment files.
+
+==== Do you want to change source code and recompile?
+* clone this repository in to your local computer
+* `cd email-blaster`
+* To configure as eclipse project `mvn eclipse:eclipse`
+* Create package `mvn package`
+* Bundle will be available under `email-blaster/target/`
