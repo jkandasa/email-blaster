@@ -1,0 +1,53 @@
+<assembly>
+  <id>bundle</id>
+
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/package/conf</directory>
+      <outputDirectory>email-blaster/conf</outputDirectory>
+      <fileMode>764</fileMode>
+      <directoryMode>764</directoryMode>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/package/bin</directory>
+      <outputDirectory>email-blaster/bin</outputDirectory>
+      <fileMode>774</fileMode>
+      <directoryMode>764</directoryMode>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/assembly</directory>
+      <outputDirectory>email-blaster/logs</outputDirectory>
+      <excludes>
+        <exclude>*</exclude>
+      </excludes>
+      <fileMode>764</fileMode>
+      <directoryMode>764</directoryMode>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/target</directory>
+      <outputDirectory>email-blaster/lib</outputDirectory>
+      <includes>
+        <include>email-blaster-*-single.jar</include>
+      </includes>
+      <fileMode>755</fileMode>
+      <directoryMode>764</directoryMode>
+    </fileSet>
+  </fileSets>
+
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>email-blaster/lib</outputDirectory>
+      <excludes>
+        <exclude>*</exclude>
+      </excludes>
+      <useProjectArtifact>true</useProjectArtifact>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+</assembly>
